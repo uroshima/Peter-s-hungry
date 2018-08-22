@@ -1,11 +1,43 @@
 <html>
   <head>
     <title>Peter-s-hungry</title>
+    <style>
+    canvas { background-image: url("./images/sky-7.jpg"); background-size: cover;}
+    </style>
   </head>
 
   <body>
-    <canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
+    <canvas id="canvas" width=800 height=600 style="border:1px solid #d3d3d3;">
+    </canvas>
+    <script type="application/javascript" src="lib/bundle.js">
 
-    <script type="application/javascript" src="lib/bundle.js"></script>
+    </script>
+    <!-- <img src="images/sky-7.jpg" id="img1"> -->
   </body>
 </html>
+
+<!--
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="578" height="400"></canvas>
+    <script>
+      var canvas = document.getElementById('myCanvas');
+      var context = canvas.getContext('2d');
+      var imageObj = new Image();
+
+      imageObj.onload = function() {
+        context.drawImage(imageObj, 69, 50);
+      };
+      imageObj.src = 'https://www.html5canvastutorials.com/demos/assets/darth-vader.jpg';
+    </script>
+  </body>
+</html> -->
