@@ -102,15 +102,52 @@ constructor(ctx, x, y, dy, radius) {
   this.y = y;
   this.dy = dy;
   this.radius = radius;
+
+  this.bananasImg = new Image();
+  this.bananasImg.src = "./images/bananas.png";
+  this.sundaeImg = new Image();
+  this.sundaeImg.src = "./images/sundae.png";
+  this.croissantImg = new Image();
+  this.croissantImg.src = "./images/croissant.png";
+
+  this.doughnutImg = new Image();
+  this.doughnutImg.src = "./images/doughnut.png";
+  this.grapefruitImg = new Image();
+  this.grapefruitImg.src = "./images/grapefruit.png";
+  this.hotdogImg = new Image();
+  this.hotdogImg.src = "./images/hot-dog.png";
+
+  this.broccoliImg = new Image();
+  this.broccoliImg.src = "./images/broccoli.png";
+  this.watermelonImg = new Image();
+  this.watermelonImg.src = "./images/watermelon.png";
+  this.burgerImg = new Image();
+  this.burgerImg.src = "./images/burger.png";
+  this.draw = this.draw.bind(this);
 }
 
   draw() {
-    this.ctx.beginPath();
-    this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    this.ctx.strokeStyle = "blue";
-    this.ctx.stroke();
-    this.ctx.fill();
-  };
+
+    if (this.radius < 25) {
+      this.ctx.drawImage(this.bananasImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 25 && this.radius < 28) {
+      this.ctx.drawImage(this.sundaeImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 28 && this.radius < 32) {
+      this.ctx.drawImage(this.croissantImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 32 && this.radius < 36) {
+      this.ctx.drawImage(this.doughnutImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 36 && this.radius < 40) {
+      this.ctx.drawImage(this.grapefruitImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 40 && this.radius < 44) {
+      this.ctx.drawImage(this.hotdogImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 44 && this.radius < 48) {
+      this.ctx.drawImage(this.broccoliImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else if (this.radius >= 48 && this.radius < 53) {
+      this.ctx.drawImage(this.watermelonImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    } else {
+      this.ctx.drawImage(this.burgerImg, this.x, this.y, this.radius * 2, this.radius * 2)
+    }
+  }
 
   update() {
     this.y += this.dy;
@@ -140,10 +177,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
 
   canvas.width = 800;
-  canvas.height = 600;
+  canvas.height = 506;
   const game = new Game(ctx);
+  // window.game = game;
   game.start();
-
+  // console.log(canvas.width);
   window.addEventListener('keydown', keyPressed);
   window.addEventListener('keyup', keyUp);
 
@@ -182,6 +220,8 @@ class Game {
     this.player = new Player(this.ctx);
     this.y = 0;
     this.generateCircle(this.circleArray);
+    this.score = 0;
+    this.missedCircles = 0;
   }
 
   start() {
@@ -190,24 +230,46 @@ class Game {
 
   generateCircle(circleArray) {
      let x,  dy, radius, circle;
-      while (circleArray.length < 4) {
+      while (circleArray.length < 6) {
         x = Math.random() * innerHeight;
         radius = (Math.random() + 0.5) * 40;
-        dy = Math.random() * 10;
-        if (dy < 2) {
-          dy *= 3;
+        dy = Math.random() * 3;
+        if (dy < 0.6) {
+          dy = 1.5;
         }
         circle = new Circle(this.ctx, x, this.y, dy, radius);
         circleArray.push(circle);
       }
   }
 
+   gameOver() {
+    cancelAnimationFrame();
+  }
+  //
    animate() {
      this.ctx.clearRect(0, 0, innerWidth, innerHeight);
      for (var i = 0; i < this.circleArray.length; i++) {
-        if (this.circleArray[i].y - this.circleArray[i].radius >= 600) {
+       // variables for defining the circle edges
+       let circleStart = this.circleArray[i].x - this.circleArray[i].radius;
+       let circleEnd = this.circleArray[i].x + this.circleArray[i].radius;
+       let bottomEdgeOfCircle = this.circleArray[i].y + this.circleArray[i].radius;
+       // variables for defining peters edges
+       let playerStart = this.player.xPos - 31;
+       let playerEnd = this.player.xPos + 69;
+       let petersMouth = this.player.yPos + 20;
+
+        if (bottomEdgeOfCircle > 506) {
           this.circleArray.splice(i, 1);
-          this.generateCircle(this.circleArray)
+          this.missedCircles += 1;
+          if (this.missedCircles >= 10) {
+            this.gameOver();
+          }
+          this.generateCircle(this.circleArray);
+        }
+        if (bottomEdgeOfCircle > petersMouth && ((circleStart > playerStart && circleStart < playerEnd) ||  (circleEnd < playerEnd && circleEnd > playerStart))) {
+          this.circleArray.splice(i, 1);
+          this.score += 100;
+          this.generateCircle(this.circleArray);
         }
       this.circleArray[i].update();
     }
@@ -234,7 +296,7 @@ class Player {
   constructor(ctx) {
     this.ctx = ctx;
     this.xPos = 375;
-    this.yPos = 500;
+    this.yPos = 406;
     this.xspeed = 0;
     this.height = 100;
     this.width = 100;
@@ -245,7 +307,6 @@ class Player {
 
   direction(x) {
     this.xspeed = x;
-    console.log(this.xspeed);
   }
 
   playUpdate() {
