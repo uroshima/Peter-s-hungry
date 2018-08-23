@@ -179,7 +179,20 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = 800;
   canvas.height = 506;
   const game = new Game(ctx);
-  game.start();
+
+  window.addEventListener('keydown', restartGame);
+
+  function restartGame(e) {
+    let code = e.keyCode;
+    if (code === 32) {
+      game.restart();
+    }
+  }
+
+  // let gameOverImg = new Image();
+  // gameOverImg.src = "./images/game-over.jpg";
+
+  game.pressSpaceToStart();
 
   window.addEventListener('keydown', keyPressed);
   window.addEventListener('keyup', keyUp);
@@ -229,6 +242,15 @@ class Game {
     requestAnimationFrame(this.animate.bind(this));
   }
 
+  restart() {
+    this.circleArray = [];
+    this.player = new Player(this.ctx);
+    this.generateCircle(this.circleArray);
+    this.score = 0;
+    this.missedCircles = 0;
+    this.start();
+  }
+
   generateCircle(circleArray) {
      let x,  dy, radius, circle;
 
@@ -252,6 +274,20 @@ class Game {
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Game Over", 250, 280);
     this.drawScore();
+    this.pressSpaceToRestart();
+  }
+
+  pressSpaceToRestart() {
+    this.ctx.font = "26px Comic Sans MS";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText("Press Space to Restart the Game", 350, 30);
+  }
+
+  pressSpaceToStart() {
+    // this.ctx.drawImage(this.gameOverImg, 0, 0, 800, 506);
+    this.ctx.font = "70px Comic Sans MS";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText("Press Space to Start", 70, 280);
   }
 
    gameOver() {
@@ -263,6 +299,12 @@ class Game {
     this.ctx.font = "26px Comic Sans MS";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Score: "+ this.score, 15, 30);
+  }
+
+  drawMissedFoodItems() {
+    this.ctx.font = "26px Comic Sans MS";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText("Missed: "+ this.missedCircles, 600, 30);
   }
 
    animate() {
@@ -282,7 +324,7 @@ class Game {
           this.circleArray.splice(i, 1);
           this.missedCircles += 1;
 
-          if (this.missedCircles >= 1) {
+          if (this.missedCircles >= 10) {
             this.gameOver();
           }
 
@@ -301,6 +343,7 @@ class Game {
 
     this.player.playUpdate();
     this.drawScore();
+    this.drawMissedFoodItems();
     requestAnimationFrame(this.animate.bind(this));
   }
 }
