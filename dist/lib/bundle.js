@@ -179,9 +179,8 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.width = 800;
   canvas.height = 506;
   const game = new Game(ctx);
-  // window.game = game;
   game.start();
-  // console.log(canvas.width);
+
   window.addEventListener('keydown', keyPressed);
   window.addEventListener('keyup', keyUp);
 
@@ -222,6 +221,8 @@ class Game {
     this.generateCircle(this.circleArray);
     this.score = 0;
     this.missedCircles = 0;
+    this.gameOverImg = new Image();
+    this.gameOverImg.src = "./images/game-over.jpg";
   }
 
   start() {
@@ -230,22 +231,40 @@ class Game {
 
   generateCircle(circleArray) {
      let x,  dy, radius, circle;
+
       while (circleArray.length < 6) {
         x = Math.random() * innerHeight;
         radius = (Math.random() + 0.5) * 40;
         dy = Math.random() * 3;
+
         if (dy < 0.6) {
           dy = 1.5;
         }
+
         circle = new Circle(this.ctx, x, this.y, dy, radius);
         circleArray.push(circle);
       }
   }
 
+  drawGameOver() {
+    this.ctx.drawImage(this.gameOverImg, 0, 0, 800, 506);
+    this.ctx.font = "70px Comic Sans MS";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText("Game Over", 250, 280);
+    this.drawScore();
+  }
+
    gameOver() {
+     this.drawGameOver();
     cancelAnimationFrame();
   }
   //
+   drawScore() {
+    this.ctx.font = "26px Comic Sans MS";
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText("Score: "+ this.score, 15, 30);
+  }
+
    animate() {
      this.ctx.clearRect(0, 0, innerWidth, innerHeight);
      for (var i = 0; i < this.circleArray.length; i++) {
@@ -258,22 +277,30 @@ class Game {
        let playerEnd = this.player.xPos + 69;
        let petersMouth = this.player.yPos + 20;
 
+       // if the food fails on the ground
         if (bottomEdgeOfCircle > 506) {
           this.circleArray.splice(i, 1);
           this.missedCircles += 1;
-          if (this.missedCircles >= 10) {
+
+          if (this.missedCircles >= 1) {
             this.gameOver();
           }
+
           this.generateCircle(this.circleArray);
         }
+        // if peter catches the food
         if (bottomEdgeOfCircle > petersMouth && ((circleStart > playerStart && circleStart < playerEnd) ||  (circleEnd < playerEnd && circleEnd > playerStart))) {
           this.circleArray.splice(i, 1);
           this.score += 100;
           this.generateCircle(this.circleArray);
         }
+
       this.circleArray[i].update();
     }
+    // console.log(this.player.xpseed)
+
     this.player.playUpdate();
+    this.drawScore();
     requestAnimationFrame(this.animate.bind(this));
   }
 }
@@ -310,7 +337,11 @@ class Player {
   }
 
   playUpdate() {
-    this.xPos = this.xPos + this.xspeed;
+
+    if ((this.xPos + this.xspeed + this.width/2 <= 800) && (this.xPos + this.xspeed + this.width/2 >= 0)) {
+      this.xPos = this.xPos + this.xspeed;
+    }
+    
     this.draw();
   }
 
