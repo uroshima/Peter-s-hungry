@@ -180,6 +180,10 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.height = 506;
   const game = new Game(ctx);
 
+  const audio = document.getElementById("audio").autoplay;
+  // audio.autoplay = true;
+  // audio.load();
+
   window.addEventListener('keydown', restartGame);
 
   function restartGame(e) {
@@ -236,6 +240,8 @@ class Game {
     this.missedCircles = 0;
     this.gameOverImg = new Image();
     this.gameOverImg.src = "./images/game-over.jpg";
+    // this.backgroundSound = new sound("./sounds/backgroundSound.mp3");
+
   }
 
   start() {
@@ -327,7 +333,7 @@ class Game {
           else {
             this.missedCircles += 1;
           }
-          
+
           this.circleArray.splice(i, 1);
 
           if (this.missedCircles >= 10) {
@@ -350,8 +356,8 @@ class Game {
 
       this.circleArray[i].update();
     }
-    // console.log(this.player.xpseed)
 
+    // this.backgroundSound.play();
     this.player.playUpdate();
     this.drawScore();
     this.drawMissedFoodItems();

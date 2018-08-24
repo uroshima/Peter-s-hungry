@@ -15,16 +15,21 @@
 
     <div class="nav-bar">
       <div class="top-bar">
-      <div>
-        <img class="overlay" src="./images/peter-title1.png" alt="storyImageurl"></img>
-      </div>
+
+        <div>
+          <img class="overlay" src="./images/peter-title1.png" alt="storyImageurl"></img>
+        </div>
+
         <div >
         Peter's Hungry !!!
         </div>
+
         <div class="links-together">
+
           <a href="https://github.com/uroshima">
             <img class="links" src="./images/github.png" alt="storyImageurl"></img>
           </a>
+
           <a href="https://www.linkedin.com/in/urosh-stojkovikj-9b606016a/">
             <img class="links" src="./images/linked.png" alt="storyImageurl"></img>
           </a>
@@ -40,9 +45,26 @@
       </div>
       <div>
         <canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
+        <script>
+        // need to click twice to start playing
+        function play(){
+          var audio = document.getElementById("audio");
+          audio.play();
+          var off = audio.muted;
+          if (off) {
+            audio.muted = false;
+          } else {
+            audio.muted = true;
+          }
+        }
+        </script>
+
+        <button type="button" value="PLAY"  onclick="play()">
+          <img src="./images/high-volume.png" alt="storyImageurl" width="20" height"20"></img>
+        </button>
+        <audio id="audio" src="./sounds/backgroundSound.mp3" autoplay=''></audio>
       </div>
       <script type="application/javascript" src="dist/lib/bundle.js"></script>
     </div>
-
   </body>
 </html>
