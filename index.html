@@ -1,16 +1,48 @@
 <html>
+
   <head>
-    <title>Peter-s-hungry</title>
+
+    <link rel="stylesheet" href="./index.css">
     <style>
     canvas {background-image: url("./images/family-guy.jpg");
-    background-size: cover;
+    background-size: cover; float: right;
     }
-
     </style>
+
   </head>
 
   <body>
-    <canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
-    <script type="application/javascript" src="dist/lib/bundle.js"></script>
+
+    <div class="nav-bar">
+      <div class="top-bar">
+      <div>
+        <img class="overlay" src="./images/peter-title1.png" alt="storyImageurl"></img>
+      </div>
+        <div >
+        Peter's Hungry !!!
+        </div>
+        <div class="links-together">
+          <a href="https://github.com/uroshima">
+            <img class="links" src="./images/github.png" alt="storyImageurl"></img>
+          </a>
+          <a href="https://www.linkedin.com/in/urosh-stojkovikj-9b606016a/">
+            <img class="links" src="./images/linked.png" alt="storyImageurl"></img>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="instructions">
+        <p><span>Help Peter eat all of his favorite foods. But be careful! Don’t touch anything healthy!</span>
+          <span>Use the left and right arrow keys to navigate Peter away from the veggies and fruits and towards his favorite snacks.</span><span>Be careful to not miss more than nine of Peter’s favorite snacks or it’s game over!</span>
+        </p>
+      </div>
+      <div>
+        <canvas id="canvas" style="border:1px solid #d3d3d3;"></canvas>
+      </div>
+      <script type="application/javascript" src="dist/lib/bundle.js"></script>
+    </div>
+
   </body>
 </html>

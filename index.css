@@ -1,0 +1,87 @@
+body {
+  margin: 0;
+  padding: 0;
+  /* padding-left: 50px; */
+  padding-right: 50px;
+  background-color: #EEE8AA;
+  font-family: Comic Sans MS;
+}
+
+
+.nav-bar {
+    width: 100%;
+    /* padding-top: 50px; */
+    /* padding-bottom: 100px; */
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-left: 200px; */
+    font-size:100px;
+    font-weight:bold;
+    text-align: center;
+    /* padding-left: 100px; */
+}
+
+.instructions {
+  float:left;
+  width: 400px;
+}
+
+p span {
+  display: block;
+}
+
+
+.overlay {
+  height: 300px;
+  padding-left: 80px;
+}
+
+p {
+  /* justify-content: space-around; */
+  /* align-content: center; */
+  font-size:25px;
+  font-weight:bold;
+  padding: 0;
+  text-align: center;
+  padding-left: 100px;
+  /* display:inline-block; */
+}
+
+.title {
+  height: 300px;
+  flex-direction: row;
+  padding: 0;
+}
+
+.content {
+  padding-top: 0;
+  padding-right: 80;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 700px;
+}
+
+.links {
+  width: 40;
+  height: 40;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 70px;
+  padding-right: 10px;
+}
+
+.links-together {
+  justify-content: space-around;
+}
+
+a {
+  float:left;
+}
+
+/* style="font-size:100px; font-family:Comic Sans MS; font-weight:bold;" */

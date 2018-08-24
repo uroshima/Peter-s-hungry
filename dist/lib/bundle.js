@@ -189,9 +189,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // let gameOverImg = new Image();
-  // gameOverImg.src = "./images/game-over.jpg";
-
+  function titleImageOn() {
+    document.getElementById("overlay").style.display = "block";
+  }
   game.pressSpaceToStart();
 
   window.addEventListener('keydown', keyPressed);
@@ -284,7 +284,7 @@ class Game {
   }
 
   pressSpaceToStart() {
-    // this.ctx.drawImage(this.gameOverImg, 0, 0, 800, 506);
+    this.ctx.drawImage(this.gameOverImg, 0, 0, 800, 506);
     this.ctx.font = "70px Comic Sans MS";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Press Space to Start", 70, 280);
@@ -321,8 +321,14 @@ class Game {
 
        // if the food fails on the ground
         if (bottomEdgeOfCircle > 506) {
+
+          if (this.circleArray[i].radius < 25 || (this.circleArray[i].radius >= 36 && this.circleArray[i].radius < 40)
+              || (this.circleArray[i].radius >= 44 && this.circleArray[i].radius < 48) || (this.circleArray[i].radius >= 48 && this.circleArray[i].radius < 53)) {}
+          else {
+            this.missedCircles += 1;
+          }
+          
           this.circleArray.splice(i, 1);
-          this.missedCircles += 1;
 
           if (this.missedCircles >= 10) {
             this.gameOver();
@@ -332,8 +338,13 @@ class Game {
         }
         // if peter catches the food
         if (bottomEdgeOfCircle > petersMouth && ((circleStart > playerStart && circleStart < playerEnd) ||  (circleEnd < playerEnd && circleEnd > playerStart))) {
+          if (this.circleArray[i].radius < 25 || (this.circleArray[i].radius >= 36 && this.circleArray[i].radius < 40)
+              || (this.circleArray[i].radius >= 44 && this.circleArray[i].radius < 48) || (this.circleArray[i].radius >= 48 && this.circleArray[i].radius < 53)) {
+            this.score -= 100;
+          } else {
+            this.score += 100;
+          }
           this.circleArray.splice(i, 1);
-          this.score += 100;
           this.generateCircle(this.circleArray);
         }
 
