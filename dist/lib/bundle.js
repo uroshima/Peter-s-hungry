@@ -173,7 +173,6 @@ const Player = __webpack_require__(/*! ./player */ "./lib/player.js");
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
-  const img = document.getElementById("img1");
   const ctx = canvas.getContext("2d");
 
   canvas.width = 800;
@@ -181,8 +180,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const game = new Game(ctx);
 
   const audio = document.getElementById("audio").autoplay;
-  // audio.autoplay = true;
-  // audio.load();
 
   window.addEventListener('keydown', restartGame);
 
@@ -193,9 +190,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  function titleImageOn() {
-    document.getElementById("overlay").style.display = "block";
-  }
+  // function titleImageOn() {
+  //   document.getElementById("overlay").style.display = "block";
+  // }
   game.pressSpaceToStart();
 
   window.addEventListener('keydown', keyPressed);
@@ -240,12 +237,11 @@ class Game {
     this.missedCircles = 0;
     this.gameOverImg = new Image();
     this.gameOverImg.src = "./images/game-over.jpg";
-    // this.backgroundSound = new sound("./sounds/backgroundSound.mp3");
-
+    this.animate = this.animate.bind(this);
   }
 
   start() {
-    requestAnimationFrame(this.animate.bind(this));
+    requestAnimationFrame(this.animate);
   }
 
   restart() {
@@ -290,7 +286,6 @@ class Game {
   }
 
   pressSpaceToStart() {
-    this.ctx.drawImage(this.gameOverImg, 0, 0, 800, 506);
     this.ctx.font = "70px Comic Sans MS";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Press Space to Start", 70, 280);
@@ -357,11 +352,10 @@ class Game {
       this.circleArray[i].update();
     }
 
-    // this.backgroundSound.play();
     this.player.playUpdate();
     this.drawScore();
     this.drawMissedFoodItems();
-    requestAnimationFrame(this.animate.bind(this));
+    requestAnimationFrame(this.animate);
   }
 }
 
