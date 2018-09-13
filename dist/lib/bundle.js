@@ -272,7 +272,7 @@ class Game {
 
   drawGameOver() {
     this.ctx.drawImage(this.gameOverImg, 0, 0, 800, 506);
-    this.ctx.font = "70px Comic Sans MS";
+    this.ctx.font = "70px sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Game Over", 250, 280);
     this.drawScore();
@@ -280,13 +280,13 @@ class Game {
   }
 
   pressSpaceToRestart() {
-    this.ctx.font = "26px Comic Sans MS";
+    this.ctx.font = "26px sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Press Space to Restart the Game", 350, 30);
   }
 
   pressSpaceToStart() {
-    this.ctx.font = "70px Comic Sans MS";
+    this.ctx.font = "70px sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Press Space to Start", 70, 280);
   }
@@ -297,13 +297,13 @@ class Game {
   }
   //
    drawScore() {
-    this.ctx.font = "26px Comic Sans MS";
+    this.ctx.font = "26px sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Score: "+ this.score, 15, 30);
   }
 
   drawMissedFoodItems() {
-    this.ctx.font = "26px Comic Sans MS";
+    this.ctx.font = "26px sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Missed: "+ this.missedCircles, 600, 30);
   }
@@ -395,7 +395,7 @@ class Player {
     if ((this.xPos + this.xspeed + this.width/2 <= 800) && (this.xPos + this.xspeed + this.width/2 >= 0)) {
       this.xPos = this.xPos + this.xspeed;
     }
-    
+
     this.draw();
   }
 

@@ -3,7 +3,7 @@ body {
   padding: 0;
   padding-right: 50px;
   background-color: #EEE8AA;
-  font-family: Comic Sans MS;
+  font-family: sans-serif;
 }
 
 
@@ -23,6 +23,10 @@ body {
 .instructions {
   float:left;
   width: 400px;
+}
+
+.instructions1 {
+  font-weight: normal;
 }
 
 p span {
