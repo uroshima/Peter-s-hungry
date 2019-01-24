@@ -1,7 +1,7 @@
 module.exports = {
-  entry: "./lib/entry.js",
+  entry: "./logic/entry.js",
   output: {
-  	filename: "./dist/lib/bundle.js"
+  	filename: "./dist/dist/lib/bundle.js"
   },
   devtool: 'source-map',
 };

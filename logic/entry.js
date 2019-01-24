@@ -7,8 +7,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const ctx = canvas.getContext("2d");
   canvas.width = 800;
   canvas.height = 506;
-  const game = new Game(ctx);
-
+  
+  const audio = document.getElementById("audio");
+  const song = document.getElementById("song");
+  song.play();
+  const game = new Game(ctx, audio, song);
+  // console.log("Its working");
+  // const eatSound;
+  // function preload() {
+  //   eatSound = loadSound("../sounds/backgroundSound.mp3");
+  //   console.log("inside preload function", eatSound);
+  // }
   window.addEventListener('keydown', restartGame);
   function restartGame(e) {
     let code = e.keyCode;
@@ -24,6 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let code = e.keyCode;
     if (code === 37) {
       game.player.direction(-10);
+      console.log("inside keyPressed");
     } else if (code === 39) {
       game.player.direction(10);
     }

@@ -81,19 +81,17 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./lib/entry.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./logic/entry.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./lib/circle.js":
-/*!***********************!*\
-  !*** ./lib/circle.js ***!
-  \***********************/
+/***/ "./logic/circle.js":
+/*!*************************!*\
+  !*** ./logic/circle.js ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
-
-
 
 class Circle {
 constructor(ctx, x, y, dy, radius) {
@@ -160,41 +158,41 @@ module.exports = Circle;
 
 /***/ }),
 
-/***/ "./lib/entry.js":
-/*!**********************!*\
-  !*** ./lib/entry.js ***!
-  \**********************/
+/***/ "./logic/entry.js":
+/*!************************!*\
+  !*** ./logic/entry.js ***!
+  \************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Circle = __webpack_require__(/*! ./circle */ "./lib/circle.js");
-const Game = __webpack_require__(/*! ./game */ "./lib/game.js");
-const Player = __webpack_require__(/*! ./player */ "./lib/player.js");
+const Circle = __webpack_require__(/*! ./circle */ "./logic/circle.js");
+const Game = __webpack_require__(/*! ./game */ "./logic/game.js");
+const Player = __webpack_require__(/*! ./player */ "./logic/player.js");
 
 document.addEventListener("DOMContentLoaded", () => {
   const canvas = document.getElementById("canvas");
   const ctx = canvas.getContext("2d");
-
   canvas.width = 800;
   canvas.height = 506;
-  const game = new Game(ctx);
-
-  const audio = document.getElementById("audio").autoplay;
-
+  
+  const audio = document.getElementById("audio");
+  const song = document.getElementById("song");
+  song.play();
+  const game = new Game(ctx, audio, song);
+  // console.log("Its working");
+  // const eatSound;
+  // function preload() {
+  //   eatSound = loadSound("../sounds/backgroundSound.mp3");
+  //   console.log("inside preload function", eatSound);
+  // }
   window.addEventListener('keydown', restartGame);
-
   function restartGame(e) {
     let code = e.keyCode;
     if (code === 32) {
       game.restart();
     }
   }
-
-  // function titleImageOn() {
-  //   document.getElementById("overlay").style.display = "block";
-  // }
   game.pressSpaceToStart();
-
   window.addEventListener('keydown', keyPressed);
   window.addEventListener('keyup', keyUp);
 
@@ -202,6 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let code = e.keyCode;
     if (code === 37) {
       game.player.direction(-10);
+      console.log("inside keyPressed");
     } else if (code === 39) {
       game.player.direction(10);
     }
@@ -210,24 +209,23 @@ document.addEventListener("DOMContentLoaded", () => {
   function keyUp(e) {
     game.player.direction(0);
   }
-
 });
 
 
 /***/ }),
 
-/***/ "./lib/game.js":
-/*!*********************!*\
-  !*** ./lib/game.js ***!
-  \*********************/
+/***/ "./logic/game.js":
+/*!***********************!*\
+  !*** ./logic/game.js ***!
+  \***********************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-const Circle = __webpack_require__(/*! ./circle */ "./lib/circle.js");
-const Player = __webpack_require__(/*! ./player */ "./lib/player.js");
+const Circle = __webpack_require__(/*! ./circle */ "./logic/circle.js");
+const Player = __webpack_require__(/*! ./player */ "./logic/player.js");
 
 class Game {
-  constructor(ctx, player) {
+  constructor(ctx, audio, song) {
     this.ctx = ctx;
     this.circleArray = [];
     this.player = new Player(this.ctx);
@@ -238,6 +236,8 @@ class Game {
     this.gameOverImg = new Image();
     this.gameOverImg.src = "./images/game-over.jpg";
     this.animate = this.animate.bind(this);
+    this.audio = audio;
+    // this.song = song;
   }
 
   start() {
@@ -291,12 +291,12 @@ class Game {
     this.ctx.fillText("Press Space to Start", 70, 280);
   }
 
-   gameOver() {
-     this.drawGameOver();
+  gameOver() {
+    this.drawGameOver();
     cancelAnimationFrame();
   }
-  //
-   drawScore() {
+
+  drawScore() {
     this.ctx.font = "26px sans-serif";
     this.ctx.fillStyle = "black";
     this.ctx.fillText("Score: "+ this.score, 15, 30);
@@ -308,54 +308,57 @@ class Game {
     this.ctx.fillText("Missed: "+ this.missedCircles, 600, 30);
   }
 
-   animate() {
-     this.ctx.clearRect(0, 0, innerWidth, innerHeight);
-     for (var i = 0; i < this.circleArray.length; i++) {
-       // variables for defining the circle edges
-       let circleStart = this.circleArray[i].x - this.circleArray[i].radius;
-       let circleEnd = this.circleArray[i].x + this.circleArray[i].radius;
-       let bottomEdgeOfCircle = this.circleArray[i].y + this.circleArray[i].radius;
-       // variables for defining peters edges
-       let playerStart = this.player.xPos - 31;
-       let playerEnd = this.player.xPos + 69;
-       let petersMouth = this.player.yPos + 20;
+  animate() {
+    this.ctx.clearRect(0, 0, innerWidth, innerHeight);
+    // this.song.play();
+    for (var i = 0; i < this.circleArray.length; i++) {
+      // variables for defining the circle edges
+      let circleStart = this.circleArray[i].x - this.circleArray[i].radius;
+      let circleEnd = this.circleArray[i].x + this.circleArray[i].radius;
+      let bottomEdgeOfCircle = this.circleArray[i].y + this.circleArray[i].radius;
+      // variables for defining peters edges
+      let playerStart = this.player.xPos - 31;
+      let playerEnd = this.player.xPos + 69;
+      let petersMouth = this.player.yPos + 20;
 
-       // if the food fails on the ground
-        if (bottomEdgeOfCircle > 506) {
+      // if the food fails on the ground
+      if (bottomEdgeOfCircle > 506) {
 
-          if (this.circleArray[i].radius < 25 || (this.circleArray[i].radius >= 36 && this.circleArray[i].radius < 40)
-              || (this.circleArray[i].radius >= 44 && this.circleArray[i].radius < 48) || (this.circleArray[i].radius >= 48 && this.circleArray[i].radius < 53)) {}
-          else {
-            this.missedCircles += 1;
-          }
-
-          this.circleArray.splice(i, 1);
-
-          if (this.missedCircles >= 10) {
-            this.gameOver();
-          }
-
-          this.generateCircle(this.circleArray);
-        }
-        // if peter catches the food
-        if (bottomEdgeOfCircle > petersMouth && ((circleStart > playerStart && circleStart < playerEnd) ||  (circleEnd < playerEnd && circleEnd > playerStart))) {
-          if (this.circleArray[i].radius < 25 || (this.circleArray[i].radius >= 36 && this.circleArray[i].radius < 40)
-              || (this.circleArray[i].radius >= 44 && this.circleArray[i].radius < 48) || (this.circleArray[i].radius >= 48 && this.circleArray[i].radius < 53)) {
-            this.score -= 100;
-          } else {
-            this.score += 100;
-          }
-          this.circleArray.splice(i, 1);
-          this.generateCircle(this.circleArray);
+        if (this.circleArray[i].radius < 25 || (this.circleArray[i].radius >= 36 && this.circleArray[i].radius < 40)
+            || (this.circleArray[i].radius >= 44 && this.circleArray[i].radius < 48) || (this.circleArray[i].radius >= 48 && this.circleArray[i].radius < 53)) {}
+        else {
+          this.missedCircles += 1;
         }
 
-      this.circleArray[i].update();
-    }
+        this.circleArray.splice(i, 1);
 
-    this.player.playUpdate();
-    this.drawScore();
-    this.drawMissedFoodItems();
-    requestAnimationFrame(this.animate);
+        if (this.missedCircles >= 10) {
+          this.gameOver();
+        }
+
+        this.generateCircle(this.circleArray);
+      }
+      // if peter catches the food
+      const soundFlag = true;
+      if (bottomEdgeOfCircle > petersMouth && ((circleStart > playerStart && circleStart < playerEnd) ||  (circleEnd < playerEnd && circleEnd > playerStart))) {
+        if (this.circleArray[i].radius < 25 || (this.circleArray[i].radius >= 36 && this.circleArray[i].radius < 40)
+            || (this.circleArray[i].radius >= 44 && this.circleArray[i].radius < 48) || (this.circleArray[i].radius >= 48 && this.circleArray[i].radius < 53)) {
+          this.score -= 100;
+        } else {
+          this.score += 100;
+          this.audio.play();        
+        }
+        this.circleArray.splice(i, 1);
+        this.generateCircle(this.circleArray);
+      }
+
+    this.circleArray[i].update();
+  }
+
+  this.player.playUpdate();
+  this.drawScore();
+  this.drawMissedFoodItems();
+  requestAnimationFrame(this.animate);
   }
 }
 
@@ -364,14 +367,12 @@ module.exports = Game;
 
 /***/ }),
 
-/***/ "./lib/player.js":
-/*!***********************!*\
-  !*** ./lib/player.js ***!
-  \***********************/
+/***/ "./logic/player.js":
+/*!*************************!*\
+  !*** ./logic/player.js ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
-
-
 
 class Player {
   constructor(ctx) {
@@ -395,7 +396,7 @@ class Player {
     if ((this.xPos + this.xspeed + this.width/2 <= 800) && (this.xPos + this.xspeed + this.width/2 >= 0)) {
       this.xPos = this.xPos + this.xspeed;
     }
-
+    
     this.draw();
   }
 

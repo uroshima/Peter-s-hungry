@@ -36,11 +36,9 @@ In addition to the webpack entry file, there will be four scripts involved in th
 
 * game.js: this script will handle the updating and rendering of the canvas elements.
 
-* food.js: this script will handle the logic of the food-items elements of the game.
+* circle.js: this script will handle the logic of the food-items elements of the game.
 
-* peter.js: this script will handle the logic of Peter as an element of the game.
-
-* util.js: this script will handle the logic of the moving elements of the game.
+* player.js: this script will handle the logic of Peter as an element of the game.
 
 ### Implementation Timeline
 
@@ -51,17 +49,17 @@ Basic setup. This will include all necessary Node modules as well as getting web
 * Review enough Canvas to have the basic layout of the game displayed
 
 ### Day 2:
-Build peter.js and parts of util.js and game.js. Create and render the hero of the game - Peter and be able to move left and right. Add a background to the game screen.
+Build player.js and game.js. Create and render the hero of the game - Peter and be able to move left and right. Add a background to the game screen.
 
-* Complete peter.js
+* Complete player.js
 * Render the hero on the Canvas screen
 * Render the background image on the Canvas screen
 * Make sure the hero is able to move around left & right
 
 ### Day 3:
-Build food.js and the remaining parts of util.js. Add images for each of the various food items in the game.
+Build circle.js. Add images for each of the various food items in the game.
 
-* Complete food.js and util.js
+* Complete circle.js 
 * Render the food items on the Canvas screen
 * Complete the logic for the food items and the interactions between the food and Peter
 
