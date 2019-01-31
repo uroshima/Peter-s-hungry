@@ -9,15 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
   canvas.height = 506;
   
   const audio = document.getElementById("audio");
-  const song = document.getElementById("song");
-  song.play();
-  const game = new Game(ctx, audio, song);
-  // console.log("Its working");
-  // const eatSound;
-  // function preload() {
-  //   eatSound = loadSound("../sounds/backgroundSound.mp3");
-  //   console.log("inside preload function", eatSound);
-  // }
+  // const song = document.getElementById("song");
+  window.onload = function() {
+    document.getElementById("song").play();
+  }
+  // song.play();
+  const game = new Game(ctx, audio);
+
   window.addEventListener('keydown', restartGame);
   function restartGame(e) {
     let code = e.keyCode;
@@ -33,7 +31,6 @@ document.addEventListener("DOMContentLoaded", () => {
     let code = e.keyCode;
     if (code === 37) {
       game.player.direction(-10);
-      console.log("inside keyPressed");
     } else if (code === 39) {
       game.player.direction(10);
     }

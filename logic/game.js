@@ -2,7 +2,7 @@ const Circle = require('./circle');
 const Player = require('./player');
 
 class Game {
-  constructor(ctx, audio, song) {
+  constructor(ctx, audio) {
     this.ctx = ctx;
     this.circleArray = [];
     this.player = new Player(this.ctx);
